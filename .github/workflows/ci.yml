@@ -1,0 +1,25 @@
+# Goal: Build a image for Devboard and puch to Docker Hub.
+
+name: CI
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  Build-Push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout/clone code
+        uses: actions/checkout@v7
+        
+# Set up Docker Buildx (Enables multi-platform builds and caching)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+# Authenticate with Docker Registry
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
